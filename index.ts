@@ -2,15 +2,14 @@
  * @Description:
  * @Author: panrui
  * @Date: 2023-07-06 14:31:45
- * @LastEditTime: 2023-07-06 14:51:28
+ * @LastEditTime: 2023-07-07 08:42:04
  * @LastEditors: panrui
  * 不忘初心,不负梦想
  */
 
 // 地图数据展示
 const exportGeoData = (provinceCode: number | string) => {
-  console.log("exportGeoData");
-  const geo = {
+  const mapData = {
     type: "FeatureCollection",
     features: [
       {
@@ -12166,14 +12165,26 @@ const exportGeoData = (provinceCode: number | string) => {
         },
       },
     ],
-    // attach: [
-    //   {
-    //     adcode: 1000001,
-    //     name: "南海诸岛",
-    //     adchar: "NHZD",
-    //   },
-    // ],
+    attach: [
+      {
+        adcode: 1000001,
+        name: "南海诸岛",
+        adchar: "NHZD",
+      },
+    ],
   };
 
   // 根据 provinceCode 返回对应的地图
+  if (provinceCode != 100000) {
+    let features = mapData.features;
+    let newFeatures: any = [];
+    for (let i = 0; i < features.length; i++) {
+      if (features[i].properties.adcode == provinceCode) {
+        newFeatures.push(features[i]);
+        break;
+      }
+    }
+    mapData.features = newFeatures;
+  }
+  return mapData;
 };
